@@ -1,4 +1,4 @@
-const lists_data = [{"id":1,"name":"alcohol","user_id":4},
+const listsData = [{"id":1,"name":"alcohol","user_id":4},
 {"id":2,"name":"Methylphenidate Hydrochloride","user_id":35},
 {"id":3,"name":"Red Mulberry","user_id":4},
 {"id":4,"name":"bacillus firmus","user_id":42},

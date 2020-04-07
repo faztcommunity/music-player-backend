@@ -1,4 +1,4 @@
-const users_data = [{
+const usersData = [{
     "id": 1,
     "name": "Winonah Brewers",
     "password": "AHspigvjE",

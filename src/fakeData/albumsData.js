@@ -1,4 +1,4 @@
-const albums_data = [{"id":1,"name":"Lamprotornis nitens"},
+const albumsData = [{"id":1,"name":"Lamprotornis nitens"},
 {"id":2,"name":"Catharacta skua"},
 {"id":3,"name":"Marmota flaviventris"},
 {"id":4,"name":"Dendrocitta vagabunda"},

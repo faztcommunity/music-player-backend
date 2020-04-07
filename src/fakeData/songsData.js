@@ -1,4 +1,4 @@
-const songs_data = [{"id":1,"name":"ACETAMINOPHEN","duration":268,"album_id":41,"song_bytes":1726954332},
+const songsData = [{"id":1,"name":"ACETAMINOPHEN","duration":268,"album_id":41,"song_bytes":1726954332},
 {"id":2,"name":"Acetaminophen","duration":140,"album_id":11,"song_bytes":8899199634},
 {"id":3,"name":"Avobenzone, Homosalate, Octisalate, Octocrylene","duration":254,"album_id":94,"song_bytes":7471547529},
 {"id":4,"name":"Phenol","duration":240,"album_id":96,"song_bytes":641700467},

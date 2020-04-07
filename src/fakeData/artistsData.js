@@ -1,4 +1,4 @@
-const artists_data = [{"id":1,"name":"lbartolozzi0"},
+const artistsData = [{"id":1,"name":"lbartolozzi0"},
 {"id":2,"name":"mruzic1"},
 {"id":3,"name":"vdickin2"},
 {"id":4,"name":"crawcliffe3"},
