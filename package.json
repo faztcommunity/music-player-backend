@@ -31,5 +31,8 @@
     "dotenv": "^8.2.0",
     "nodemon": "^2.0.2",
     "prettier": "^2.0.4"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
   }
 }
