@@ -9,7 +9,8 @@ function configLoad() {
     database: {
       url: ENV.DATABASE_URL,
       port: ENV.DATABASE_PORT
-    }
+    },
+    port: ENV.PORT
   };
 
   global.config = config;
