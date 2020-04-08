@@ -99,4 +99,4 @@ const albumsData = [{"id":1,"name":"Lamprotornis nitens"},
 {"id":99,"name":"Acanthaster planci"},
 {"id":100,"name":"Macropus eugenii"}]
 
-module.exports = albums_data;
+module.exports = albumsData;

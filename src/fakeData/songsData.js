@@ -298,4 +298,4 @@ const songsData = [{"id":1,"name":"ACETAMINOPHEN","duration":268,"album_id":41,"
 {"id":298,"name":"Hydroxyzine Pamoate","duration":103,"album_id":100,"song_bytes":6731046915},
 {"id":299,"name":"CETYLPYRIDINIUM CHLORIDE","duration":304,"album_id":90,"song_bytes":2695512235},
 {"id":300,"name":"ZINC OXIDE","duration":294,"album_id":40,"song_bytes":5174121374}]
-module.exports = songs_data
+module.exports = songsData

@@ -199,4 +199,4 @@ const listsData = [{"id":1,"name":"alcohol","user_id":4},
 {"id":199,"name":"Avobenzone, Homosalate, Octisalate, Octocrylene, and Oxybenzone","user_id":91},
 {"id":200,"name":"Metoclopramide","user_id":49}]
 
-module.exports = lists_data;
+module.exports = listsData;

@@ -500,4 +500,4 @@ const usersData = [{
     "login": "blawie2r@networkadvertising.org"
   }];
 
-module.exports = users_data;
+module.exports = usersData;

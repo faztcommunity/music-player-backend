@@ -39,4 +39,4 @@ const artistsData = [{"id":1,"name":"lbartolozzi0"},
 {"id":39,"name":"kshatford12"},
 {"id":40,"name":"avoss13"}]
 
-module.exports = artists_data;
+module.exports = artistsData;
