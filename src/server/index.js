@@ -30,6 +30,15 @@ app.use(express.json());
 // Use the routes
 app.use('/', routes);
 
+// Set response on 404 error
+app.use((req, res, next) => {
+  const response = {
+    code: 404,
+    message: "Sorry this resource is missing"
+  };
+  res.status(404).json(response);
+});
+
 // Initialize the express server
 function initialize() {
   app.listen(global.config.port);
