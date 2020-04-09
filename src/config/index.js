@@ -9,7 +9,10 @@ function configLoad() {
     database: {
       url: ENV.DATABASE_URL,
       port: ENV.DATABASE_PORT
-    }
+    },
+    whitelist: ['http://localhost:2000/'],
+    access_token: ENV.ACCESS_TOKEN,
+    port: ENV.PORT
   };
 
   global.config = config;
