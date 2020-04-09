@@ -11,7 +11,10 @@ function configLoad(): void {
         dbName: ENV.PG_DBNAME || '',
         pass: ENV.PG_PASSWORD || '',
         port: Number(ENV.PG_PORT)
-      }
+      },
+      whitelist: ['http://localhost:2000/'],
+      access_token: ENV.ACCESS_TOKEN || '',
+      port: Number(ENV.PORT) || 3000
     };
 
     global.config = config;

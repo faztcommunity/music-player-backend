@@ -6,7 +6,7 @@ function envLoad(): NodeJS.ProcessEnv {
     const path = resolve('.env');
     const result = config({ path });
 
-    if (result.error) throw new Error(result.error?.message);
+    if (result.error) throw new Error(result.error.message);
   }
   return process.env;
 }
