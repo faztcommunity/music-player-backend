@@ -12,7 +12,7 @@ export default (routes: Router) => {
   /**
    * Add a new user to fake data.
    */
-  routes.post('/api/user', (req: Request, res: Response) => {
+  routes.post('/users', (req: Request, res: Response) => {
     const username = req.body.username,
       password = req.body.password,
       email = req.body.email;
@@ -45,7 +45,7 @@ export default (routes: Router) => {
   /**
    * Add a new album to fake data.
    */
-  routes.post('/api/album', (req: Request, res: Response) => {
+  routes.post('/albums', (req: Request, res: Response) => {
     const name = req.body.name;
 
     if (!name) {
@@ -61,7 +61,7 @@ export default (routes: Router) => {
   /**
    * Add a new song to fake data.
    */
-  routes.post('/api/song', (req: Request, res: Response) => {
+  routes.post('/songs', (req: Request, res: Response) => {
     const name = req.body.name,
       duration = req.body.duration,
       album_id = req.body.album_id,
@@ -84,7 +84,7 @@ export default (routes: Router) => {
   /**
    * Add a new artist to fake data.
    */
-  routes.post('/api/artist', (req: Request, res: Response) => {
+  routes.post('/artists', (req: Request, res: Response) => {
     const name = req.body.name;
 
     if (!name) {
@@ -108,7 +108,7 @@ export default (routes: Router) => {
   /**
    * Add a new list to fake data.
    */
-  routes.post('/api/list', (req: Request, res: Response) => {
+  routes.post('/lists', (req: Request, res: Response) => {
     const name = req.body.name,
       user_id = req.body.user_id;
 
