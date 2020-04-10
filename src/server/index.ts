@@ -39,7 +39,7 @@ class Server implements IServer {
 
   // Use the routes
   private routes(): void {
-    this.app.use('/', routes);
+    this.app.use('/api', routes);
 
     // TODO: abstraer este codigo despues
     // Set response on 404 error

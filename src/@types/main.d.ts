@@ -28,7 +28,7 @@ type TArtist = {
 type TList = {
   id: number;
   name: string;
-  user_id: string;
+  user_id: number;
 };
 
 type TAlbum = {

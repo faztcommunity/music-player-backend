@@ -10,7 +10,7 @@ import patchs from './patchs';
 const routes = Router();
 
 // Initialize the  routes (gets, posts, deletes, patchs)
-// gets(routes); // TODO: Corregir error y luego descomentar
+gets(routes);
 posts(routes);
 deletes(routes);
 patchs(routes);

@@ -4,18 +4,18 @@
 
 ### Tecnologies
 
-- Enviroment: `NodeJS`
+- Languages: `NodeJS` and `TypeScript`
 - Framework: `Express`
 - Database: `PostgreSQL`
 
-### Start
+### Starter
 
 ```sh
-npm install
+npm install # install all the dependecies
 
-copy .env.example .env
+copy .env.example .env # create enviroments
 
-npm run start:dev
+npm run start:dev # start application in mode development
 ```
 
 ### Commands Start
@@ -32,52 +32,58 @@ npm start # server
 
 ### End Points
 
+> API
+
+    GET | api/
+
+---
+
 > USERS
 
     GET | api/users
-    GET | api/user/{id}
-    POST | api/user
-    PATCH | api/user/{id}
-    DELETE | api/user/{id}
+    GET | api/users/{id}
+    POST | api/users
+    PATCH | api/users/{id}
+    DELETE | api/users/{id}
 
 ---
 
 > ALBUMS
 
     GET | api/albums
-    GET | api/album/{id}
-    POST | api/album
-    PATCH | api/album/{id}
-    DELETE | api/album/{id}
+    GET | api/albums/{id}
+    POST | api/albums
+    PATCH | api/albums/{id}
+    DELETE | api/albums/{id}
 
 ---
 
 > SONGS
 
     GET | api/songs
-    GET | api/song/{id}
-    POST | api/song
-    PATCH | api/song/{id}
-    DELETE | api/song/{id}
+    GET | api/songs/{id}
+    POST | api/songs
+    PATCH | api/songs/{id}
+    DELETE | api/songs/{id}
 
 ---
 
 > ARTISTS
 
     GET | api/artists
-    GET | api/artist/{id}
-    POST | api/artist
-    PATCH | api/artis/{id}
-    DELETE | api/artist/{id}
+    GET | api/artists/{id}
+    POST | api/artists
+    PATCH | api/artists/{id}
+    DELETE | api/artists/{id}
 
 ---
 
 > LISTS
 
     GET | api/lists
-    GET | api/list|{id}
-    POST | api/list
-    PATCH | api/list/{id}
-    DELETE | api/list/{id}
+    GET | api/lists|{id}
+    POST | api/lists
+    PATCH | api/lists/{id}
+    DELETE | api/lists/{id}
 
 ---
