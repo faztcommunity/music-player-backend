@@ -1,5 +1,4 @@
 import { Router, Request, Response } from 'express';
-const responses = require('../responses/index');
 
 /* MOCK */
 const usersData: Array<TUser> = require('../../../mock/usersData');
@@ -26,7 +25,15 @@ export default (routes: Router) => {
    * GET user by id
    */
   routes.get('/api/user/:id', (req: Request, res: Response) => {
-    res.json(usersData[req.params.id]);
+    const response = usersData.find(el => el.id === parseInt(req.params.id));
+    if (!response) {
+      res.json({
+        code: 400,
+        message: 'Sorry this resource is missing' 
+      });
+    } else {
+      res.json(response);
+    }
   });
 
   /*
@@ -40,7 +47,15 @@ export default (routes: Router) => {
    * GET album by id
    */
   routes.get('/api/album/:id', (req: Request, res: Response) => {
-    res.json(albumsData[req.params.id]);
+    const response = albumsData.find(el => el.id === parseInt(req.params.id));
+    if (!response) {
+      res.json({
+        code: 400,
+        message: 'Sorry this resource is missing' 
+      });
+    } else {
+      res.json(response);
+    }
   });
 
   /*
@@ -54,7 +69,15 @@ export default (routes: Router) => {
    * GET song by id
    */
   routes.get('/api/song/:id', (req: Request, res: Response) => {
-    res.json(songsData[req.params.id]);
+    const response = songsData.find(el => el.id === parseInt(req.params.id));
+    if (!response) {
+      res.json({
+        code: 400,
+        message: 'Sorry this resource is missing' 
+      });
+    } else {
+      res.json(response);
+    }
   });
 
   /*
@@ -68,6 +91,51 @@ export default (routes: Router) => {
    * GET artist by id
    */
   routes.get('/api/artist/:id', (req: Request, res: Response) => {
-    res.json(artistsData[req.params.id]);
+    const response = artistsData.find(el => el.id === parseInt(req.params.id));
+    if (!response) {
+      res.json({
+        code: 400,
+        message: 'Sorry this resource is missing' 
+      });
+    } else {
+      res.json(response);
+    }
+  });
+
+  /*
+  * GET all lists 
+  */
+  routes.get('/api/lists', (req: Request, res: Response) => {
+    res.json(listsData);
+  });
+
+  /*
+  * GET list by id 
+  */
+  routes.get('/api/list/:id', (req: Request, res: Response) => {
+    const response = listsData.find(el => el.id === parseInt(req.params.id));
+    if (!response) {
+      res.json({
+        code: 400,
+        message: 'Sorry this resource is missing' 
+      });
+    } else {
+      res.json(response);
+    }
+  });
+
+  /*
+  * GET list by user_id 
+  */
+  routes.get('/api/listbyuser/:id', (req: Request, res: Response) => {
+    const response = listsData.find(el => el.user_id === parseInt(req.params.id));
+    if (!response) {
+      res.json({
+        code: 400,
+        message: 'Sorry this resource is missing' 
+      });
+    } else {
+      res.json(response);
+    }
   });
 };
