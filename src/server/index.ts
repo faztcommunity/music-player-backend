@@ -55,7 +55,7 @@ class Server implements IServer {
   // Initialize the express server
   public initialize(PORT: number = global.config.port): void {
     this.app.listen(PORT);
-    console.log(`>> SERVER -> initialize on port ${PORT}`);
+    console.log(`>> SERVER -> Initialized on port ${PORT}`);
   }
 }
 

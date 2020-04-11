@@ -18,7 +18,7 @@ function configLoad(): void {
     };
 
     global.config = config;
-    console.log('>> CONFIG -> OK');
+    console.log('>> CONFIG -> Loaded');
   } catch (error) {
     console.error('>> CONFIG ->', error.message);
   }

@@ -3,6 +3,10 @@
 # Edit at https://www.gitignore.io/?templates=node
 
 ### Node ###
+
+# vsCode
+.vsCode/
+
 # Logs
 logs
 *.log
