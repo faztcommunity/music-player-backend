@@ -1,9 +1,4 @@
 -- -----------------------------------------------------
--- Database music_player
--- -----------------------------------------------------
-CREATE DATABASE music_player WITH ENCODING = "UTF8";
--- Select manually created database
--- -----------------------------------------------------
 -- Table public.artists
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS public.artists (
