@@ -1,3 +1,13 @@
+### Previous requirements
+Have requests python package installed
+
+```
+pip3 install requests
+```
+
+Install postgresql
+
+[postgresql installation guide](https://www.digitalocean.com/community/tutorials/como-instalar-y-utilizar-postgresql-en-ubuntu-18-04-es)
 
 ### Create DB and use it
 ```
@@ -10,8 +20,8 @@ CREATE DATABASE music_player WITH ENCODING = "UTF8";
 ### Execute the database.sql file on the new DB 
 ```
 sudo -u postgres psql -d music_player -f route/to/database.sql
-
 ```
+
 (database.sql is on /music_player_backend/src/database/sql)
 
 ### Generate the dummy data 
