@@ -25,7 +25,7 @@ sudo -u postgres psql -d music_player -f route/to/database.sql
 (database.sql is on /music_player_backend/src/database/sql)
 
 ### Generate the dummy data 
-execute the fake_data_generator.py file whit python, this file is on /music_player_backend/src/database
+Execute the fake_data_generator.py file with python, this file is on /music_player_backend/src/database
 
 ```
 python3 fake_data_generator.py 100 output.sql

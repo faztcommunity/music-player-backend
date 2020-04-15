@@ -30,7 +30,7 @@ npm start # server
 
 ---
 
-### End Points
+### Endpoints
 
 > API
 
