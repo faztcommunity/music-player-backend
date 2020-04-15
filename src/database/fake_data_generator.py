@@ -19,7 +19,13 @@ def sql_insert(table_name, **kwargs):
     values = []
     for key, value in kwargs.items():
         keys.append(key)
-        values.append(f"'{value}'")
+        add_quotes = True
+        if isinstance(value, dict):
+            add_quotes = value['add_quotes']
+            value = value['value']
+        if add_quotes:
+            value = f"'{value}'"
+        values.append(value)
 
     keys = ', '.join(keys)
     values = ', '.join(values)
@@ -49,6 +55,34 @@ def get_random_names(amount):
     return map(lambda x: x.replace("_", " "), data)
 
 
+class SQLGenerator:
+    @staticmethod
+    def generate(amount, table_name, **kwargs):
+        generated = {}
+
+        for name in get_random_names(amount):
+            id = get_uuid()
+            if not kwargs:
+                _kwargs = {'id': id, 'name': name}
+            generated_sql = sql_insert(table_name, **_kwargs)
+            generated[id] = generated_sql
+
+        return generated
+
+    @staticmethod
+    def generate_many_to_many(amount, table_name, lists, field_names):
+        generated = {}
+
+        for _ in range(amount):
+            one_id = random.choice(lists[0])
+            two_id = random.choice(lists[1])
+
+            generated_sql = sql_insert(table_name, **{field_names[0]: one_id, field_names[1]: two_id})
+            generated[(one_id, two_id)] = generated_sql
+
+        return generated
+
+
 def generate_lists(amount, users_id):
     lists = {}
 
@@ -58,40 +92,6 @@ def generate_lists(amount, users_id):
         lists[list_id] = list_sql
 
     return lists
-
-
-def generate_albums(amount):
-    albums = {}
-
-    for album in get_random_names(amount):
-        album_id = get_uuid()
-        album_sql = sql_insert('albums', id=album_id, name=album)
-        albums[album_id] = album_sql
-
-    return albums
-
-
-def generate_artists(amount):
-    artists = {}
-
-    for artist in get_random_names(amount):
-        artist_id = get_uuid()
-        artist_sql = sql_insert('artists', id=artist_id, name=artist)
-        artists[artist_id] = artist_sql
-
-    return artists
-
-
-def generate_artists_albums(amount, artists, albums):
-    artists_albums = {}
-
-    for _ in range(amount):
-        album_id = random.choice(albums)
-        artist_id = random.choice(artists)
-        artist_album_sql = sql_insert('artists_albums', album_id=album_id, artist_id=artist_id)
-        artists_albums[(album_id, artist_id)] = artist_album_sql
-
-    return artists_albums
 
 
 def get_random_bytes():
@@ -104,46 +104,26 @@ def generate_songs(amount, albums):
     for song in get_random_names(amount):
         song_id = get_uuid()
         duration = random.randint(100, 300)
-        song_sql = sql_insert('songs', id=song_id, name=song, duration=duration, album_id=random.choice(albums), song_bytes=get_random_bytes())
+        song_sql = sql_insert('songs', id=song_id, name=song, duration=duration, album_id=random.choice(albums),
+                              song_bytes={'value': get_random_bytes(), 'add_quotes': False})
         songs[song_id] = song_sql
 
     return songs
-
-
-def generate_lists_songs(amount, songs, lists):
-    lists_songs = {}
-
-    for _ in range(amount):
-        song_id = random.choice(songs)
-        list_id = random.choice(lists)
-        list_song_sql = sql_insert('lists_songs', song_id=song_id, list_id=list_id)
-        lists_songs[(song_id, list_id)] = list_song_sql
-
-    return lists_songs
-
-
-def generate_artists_songs(amount, songs, artists):
-    artists_songs = {}
-
-    for _ in range(amount):
-        song_id = random.choice(songs)
-        artist_id = random.choice(artists)
-        artist_song_sql = sql_insert('artists_songs', song_id=song_id, artist_id=artist_id)
-        artists_songs[(song_id, artist_id)] = artist_song_sql
-
-    return artists_songs
 
 
 def generate_data(amount, result_file):
     titles = ["USERS", "LISTS", "ALBUMS", "ARTISTS", "ARTISTS_ALBUMS", "SONGS", "LISTS_SONGS", "ARTISTS_SONGS"]
     users = generate_users(amount)
     lists = generate_lists(amount, list(users.keys()))
-    albums = generate_albums(amount)
-    artists = generate_artists(amount)
-    artists_albums = generate_artists_albums(amount, list(artists.keys()), list(albums.keys()))
-    songs = generate_songs(amount, list(albums.keys()))
-    lists_songs = generate_lists_songs(amount, list(songs.keys()), list(lists.keys()))
-    artists_songs = generate_artists_songs(amount, list(songs.keys()), list(artists.keys()))
+    albums = SQLGenerator.generate(amount, 'albums')
+    albums_keys = list(albums.keys())
+    artists = SQLGenerator.generate(amount, 'artists')
+    artists_keys = list(artists.keys())
+    artists_albums = SQLGenerator.generate_many_to_many(amount, 'artists_albums', [albums_keys, artists_keys], ['album_id', 'artist_id'])
+    songs = generate_songs(amount, albums_keys)
+    songs_keys = list(songs.keys())
+    lists_songs = SQLGenerator.generate_many_to_many(amount, 'lists_songs', [songs_keys, list(lists.keys())], ['song_id', 'list_id'])
+    artists_songs = SQLGenerator.generate_many_to_many(amount, 'artists_songs', [songs_keys, artists_keys], ['song_id', 'artist_id'])
 
     with open(result_file, "w") as file:
         for title, lines in zip(titles, map(lambda x: list(x.values()), (users, lists, albums, artists, artists_albums, songs, lists_songs, artists_songs))):
