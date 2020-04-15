@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS public.albums (
 CREATE TABLE IF NOT EXISTS public.songs (
   "id" UUID NOT NULL,
   "name" VARCHAR(45) NOT NULL,
-  "duration" TIME NOT NULL,
+  "duration" INTEGER NOT NULL,
   "album_id" UUID NOT NULL,
   "song_bytes" BYTEA NULL,
   CONSTRAINT "pk_songs_id" PRIMARY KEY ("id"),
