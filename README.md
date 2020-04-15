@@ -30,7 +30,7 @@ npm start # server
 
 ---
 
-### End Points
+### Endpoints
 
 > API
 
@@ -87,3 +87,6 @@ npm start # server
     DELETE | api/lists/{id}
 
 ---
+
+### Local database setup
+[Database Instructions](src/database/setup.md)
