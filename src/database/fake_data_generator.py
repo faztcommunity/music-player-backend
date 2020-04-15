@@ -14,6 +14,19 @@ def get_uuid():
     return str(uuid.uuid4())
 
 
+def sql_insert(table_name, **kwargs):
+    keys = []
+    values = []
+    for key, value in kwargs.items():
+        keys.append(key)
+        values.append(f"'{value}'")
+
+    keys = ', '.join(keys)
+    values = ', '.join(values)
+
+    return f'INSERT INTO {table_name} ({keys}) VALUES ({values});'
+
+
 def generate_users(amount):
     users = {}
     res = requests.get("https://randomuser.me/api/", params={"results": amount})
@@ -24,7 +37,7 @@ def generate_users(amount):
         password = user["login"]["password"]
         user_id = get_uuid()
 
-        user_sql = f"INSERT INTO users (id, name, email, password) VALUES ('{user_id}', '{username}', '{email}', '{password}');"
+        user_sql = sql_insert('users', id=user_id, name=username, email=email, password=password)
         users[user_id] = user_sql
 
     return users
@@ -41,7 +54,7 @@ def generate_lists(amount, users_id):
 
     for list_name in get_random_names(amount):
         list_id = get_uuid()
-        list_sql = f"INSERT INTO lists (id, name, user_id) VALUES ('{list_id}', '{list_name}', '{random.choice(users_id)}');"
+        list_sql = sql_insert('lists', id=list_id, name=list_name, user_id=random.choice(users_id))
         lists[list_id] = list_sql
 
     return lists
@@ -52,7 +65,7 @@ def generate_albums(amount):
 
     for album in get_random_names(amount):
         album_id = get_uuid()
-        album_sql = f"INSERT INTO albums (id, name) VALUES ('{album_id}', '{album}');"
+        album_sql = sql_insert('albums', id=album_id, name=album)
         albums[album_id] = album_sql
 
     return albums
@@ -63,7 +76,7 @@ def generate_artists(amount):
 
     for artist in get_random_names(amount):
         artist_id = get_uuid()
-        artist_sql = f"INSERT INTO artists (id, name) VALUES ('{artist_id}', '{artist}');"
+        artist_sql = sql_insert('artists', id=artist_id, name=artist)
         artists[artist_id] = artist_sql
 
     return artists
@@ -75,7 +88,7 @@ def generate_artists_albums(amount, artists, albums):
     for _ in range(amount):
         album_id = random.choice(albums)
         artist_id = random.choice(artists)
-        artist_album_sql = f"INSERT INTO artists_albums (album_id, artist_id) VALUES ('{album_id}', '{artist_id}');"
+        artist_album_sql = sql_insert('artists_albums', album_id=album_id, artist_id=artist_id)
         artists_albums[(album_id, artist_id)] = artist_album_sql
 
     return artists_albums
@@ -91,7 +104,7 @@ def generate_songs(amount, albums):
     for song in get_random_names(amount):
         song_id = get_uuid()
         duration = random.randint(100, 300)
-        song_sql = f"INSERT INTO songs (id, name, duration, album_id, song_bytes) VALUES ('{song_id}', '{song}', {duration}, '{random.choice(albums)}', {get_random_bytes()});"
+        song_sql = sql_insert('songs', id=song_id, name=song, duration=duration, album_id=random.choice(albums), song_bytes=get_random_bytes())
         songs[song_id] = song_sql
 
     return songs
@@ -103,7 +116,7 @@ def generate_lists_songs(amount, songs, lists):
     for _ in range(amount):
         song_id = random.choice(songs)
         list_id = random.choice(lists)
-        list_song_sql = f"INSERT INTO lists_songs (song_id, list_id) VALUES ('{song_id}', '{list_id}');"
+        list_song_sql = sql_insert('lists_songs', song_id=song_id, list_id=list_id)
         lists_songs[(song_id, list_id)] = list_song_sql
 
     return lists_songs
@@ -115,7 +128,7 @@ def generate_artists_songs(amount, songs, artists):
     for _ in range(amount):
         song_id = random.choice(songs)
         artist_id = random.choice(artists)
-        artist_song_sql = f"INSERT INTO artists_songs (song_id, artist_id) VALUES ('{song_id}', '{artist_id}');"
+        artist_song_sql = sql_insert('artists_songs', song_id=song_id, artist_id=artist_id)
         artists_songs[(song_id, artist_id)] = artist_song_sql
 
     return artists_songs
