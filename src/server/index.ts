@@ -8,7 +8,7 @@ import cors from 'cors';
 import routes from './routes';
 
 class Server implements IServer {
-  public app: express.Application;
+  private app: express.Application;
 
   constructor() {
     this.app = express();
