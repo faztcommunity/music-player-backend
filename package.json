@@ -11,7 +11,7 @@
     "start:prod": "npm run build && npm run prod",
     "build": "tsc",
     "start": "npm run prod",
-    "test-dev": "nodemon --watch . --ext ts --exec \"mocha -r ts-node/register test/**/*.test.ts\""
+    "test-dev": "nodemon -e ts -w ./test --exec \"mocha -r ts-node/register test/**/*.test.ts\""
   },
   "repository": {
     "type": "git",
@@ -22,17 +22,18 @@
   ],
   "contributors": [
     {
-      "name": "Edixon Alberto",
-      "email": "edixonalberto@gmail.com",
-      "url": "https://edixonalberto.com"
+      "name": "Edixon Piña",
+      "email": "edixonalbertto@gmail.com",
+      "url": "https://www.edixonalberto.com"
     },
     {
       "name": "Daniel Solarte",
       "email": "danielsolartech@hotmail.com",
-      "url": "http://danielsolartech.com"
+      "url": "https://www.danielsolartech.com"
     }
   ],
   "license": "UNLICENSED",
+  "private": false,
   "bugs": {
     "url": "https://github.com/faztdevelopers/music-player-backend/issues"
   },
