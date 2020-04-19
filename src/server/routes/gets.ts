@@ -133,7 +133,7 @@ export default (routes: Router) => {
    * GET list by user_id
    */
   routes.get('/listbyuser/:id', (req: Request, res: Response) => {
-    const response = listsData.find(
+    const response = listsData.filter(
       (el: TList) => el.user_id === parseInt(req.params.id)
     );
     if (!response) {
