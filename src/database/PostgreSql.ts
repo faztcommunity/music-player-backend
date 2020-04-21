@@ -1,10 +1,11 @@
-import { Client } from 'pg';
+import nextDatabase, { DatabaseConnection } from 'next-database';
 
 class PostgreSql {
-  public static async start(): Promise<Client | undefined> {
+  public static async start(): Promise<DatabaseConnection |undefined> {
     const DB: TConfig['database'] = global.config.database;
 
-    const client = new Client({
+    const db = new nextDatabase({
+      type: 'postgres',
       user: DB.user,
       host: DB.host,
       database: DB.dbName,
@@ -14,9 +15,9 @@ class PostgreSql {
     });
 
     try {
-      await client.connect();
+      await db.connect();
       console.log(`>> DATABASE -> Initialized "${DB.dbName}"`);
-      return client;
+      return db;
     } catch (error) {
       console.error('>> DATABASE ->', error.message);
     }
