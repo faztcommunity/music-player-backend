@@ -41,7 +41,7 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "pg": "8.0.2"
+    "next-database": "^1.0.4"
   },
   "devDependencies": {
     "@types/chai": "^4.2.11",
