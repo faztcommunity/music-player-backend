@@ -1,5 +1,5 @@
-import configLoad from '../src/config'; // import the config manager
-import Server from '../src/server/index';
+import configLoad from '../src/config';
+import Server from '../src/server';
 import { expect } from 'chai';
 import { agent as request } from 'supertest';
 
@@ -8,12 +8,12 @@ configLoad();
 const app = server.initialize();
 
 const testGetEndpoint = (endpoint: string, type: string) => {
-    it(`[GET]: Should get ${endpoint}`, async function () {
-        const res = await request(app).get(endpoint);
-        expect(res.status).to.equal(200);
-        expect(res.body).to.be.an(type);
-    })
-}
+  it(`[GET]: Should get ${endpoint}`, async function () {
+    const res = await request(app).get(endpoint);
+    expect(res.status).to.equal(200);
+    expect(res.body).to.be.an(type);
+  });
+};
 
 //------------------GET tests--------------//
 
