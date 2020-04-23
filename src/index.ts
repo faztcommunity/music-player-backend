@@ -1,13 +1,13 @@
 import configLoad from './config'; // import the config manager
-import PostgreSql from './database/PostgreSql';
+import Database from './database';
 import Server from './server'; // Import the server manager
 
 async function main() {
-  configLoad(); // Initialize the global config
+  // Initialize the global config
+  configLoad();
 
-  const database = await PostgreSql.start();
-
-  // if (database) (await import('./database/queryExample')).getUsers(database);
+  // Initialize the PostgreSql database
+  await Database.start('postgres');
 
   // Initialize the express server
   const server = new Server();

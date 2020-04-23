@@ -44,10 +44,15 @@ type TSong = {
   song_bytes: number;
 };
 
+type TEngine = import('next-database').DatabaseSettings['type'];
+
+type TDatabase = import('next-database').DatabaseConnection;
+
 /************************************ DECLARATIONS **************************************/
 
 declare namespace NodeJS {
   interface Global {
     config: TConfig;
+    database: TDatabase;
   }
 }
