@@ -13,6 +13,7 @@ export const getAll = async (): Promise<any> => {
     return data;
   } catch (error) {
     console.error('** DATABASE ->', error.message);
+    throw new Error(error);
   }
 };
 

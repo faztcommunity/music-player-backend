@@ -1,4 +1,6 @@
-import { Router, Request, Response } from 'express';
+import { Router, Request, Response, response } from 'express';
+import Controllers from '../../controllers';
+import JsonResponse from '../responses/JsonResponse';
 
 /* MOCK */
 const usersData: Array<TUser> = require('../../../mock/usersData');
@@ -22,8 +24,14 @@ export default (routes: Router) => {
   /*
    * GET all users
    */
-  routes.get('/users', (req: Request, res: Response) => {
-    res.json(usersData);
+  routes.get('/users', async (req: Request, res: Response) => {
+    try {
+      const users: TUser[] = await Controllers.users.getAll();
+      new JsonResponse(res).ok('user list', users);
+    } catch (error) {
+      // TODO: usar NextFunction para activar un middleware
+      // que capture un error 500 generico
+    }
   });
 
   /*
