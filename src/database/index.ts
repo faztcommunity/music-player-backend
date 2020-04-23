@@ -1,7 +1,7 @@
 import nextDatabase from 'next-database';
 
 class Database {
-  public static async start(dbEngine: TEngine): Promise<TDatabase | undefined> {
+  public static async start(dbEngine: TEngine): Promise<void> {
     const DB: TConfig['database'] = global.config.database;
 
     const db = new nextDatabase({
@@ -17,11 +17,9 @@ class Database {
     try {
       await db.connect();
       global.database = db;
-
       console.log(`>> DATABASE -> Initialized "${DB.dbName}"`);
-      return db;
     } catch (error) {
-      console.error('>> DATABASE ->', error.message);
+      console.error('** DATABASE ->', error.message);
     }
   }
 }

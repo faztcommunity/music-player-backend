@@ -1,4 +1,5 @@
 import express from 'express';
+// TODO: import middleware
 // TODO: import morgan
 
 /* MIDDLEWARES */
@@ -18,7 +19,6 @@ class Server implements IServer {
 
   // Set middlewares
   private middleware(): void {
-    // Set global CORS
     const configCors = cors({
       origin: (origin, callback) => {
         if (global.config.whitelist.indexOf(origin || '') !== -1 || !origin) {
@@ -32,7 +32,7 @@ class Server implements IServer {
       credentials: true
     });
 
-    this.app.use(configCors);
+    this.app.use(configCors); // Set global CORS
     this.app.use(express.urlencoded({ extended: true }));
     this.app.use(express.json());
   }

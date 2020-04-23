@@ -1,5 +1,4 @@
 import { Router, Request, Response } from 'express';
-import responses from '../responses/typeResponse';
 
 /* MOCK */
 const usersData: Array<TUser> = require('../../../mock/usersData');

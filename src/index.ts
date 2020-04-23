@@ -3,15 +3,19 @@ import Database from './database';
 import Server from './server'; // Import the server manager
 
 async function main() {
-  // Initialize the global config
-  configLoad();
+  try {
+    // Initialize the global config
+    configLoad();
 
-  // Initialize the PostgreSql database
-  await Database.start('postgres');
+    // Initialize the PostgreSql database
+    await Database.start('postgres');
 
-  // Initialize the express server
-  const server = new Server();
-  server.initialize();
+    // Initialize the express server
+    const server = new Server();
+    server.initialize();
+  } catch (error) {
+    // TODO: terminar ejecucion del script
+  }
 }
 
 main();
