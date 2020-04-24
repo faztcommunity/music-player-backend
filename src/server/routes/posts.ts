@@ -1,5 +1,4 @@
 import { Router, Request, Response } from 'express';
-import responses from '../responses';
 
 /* MOCK */
 const usersData: Array<TUser> = require('../../../mock/usersData');
@@ -18,7 +17,7 @@ export default (routes: Router) => {
       email = req.body.email;
 
     if (!username || !password || !email) {
-      return res.jsonp(responses('error', 'You must enter the data'));
+      // return res.jsonp(responses('error', 'You must enter the data'));
     }
 
     const user = usersData.find(
@@ -28,7 +27,7 @@ export default (routes: Router) => {
     );
 
     if (user) {
-      return res.jsonp(responses('error', 'The user exists'));
+      // return res.jsonp(responses('error', 'The user exists'));
     }
 
     let lastID = usersData[usersData.length - 1].id,
@@ -49,7 +48,7 @@ export default (routes: Router) => {
     const name = req.body.name;
 
     if (!name) {
-      return res.jsonp(responses('error', 'You must enter the data'));
+      // return res.jsonp(responses('error', 'You must enter the data'));
     }
 
     let lastID = albumsData[albumsData.length - 1].id,
@@ -68,11 +67,11 @@ export default (routes: Router) => {
       song_bytes = req.body.song_bytes;
 
     if (!name || !duration || !album_id || !song_bytes) {
-      return res.jsonp(responses('error', 'You must enter the data'));
+      // return res.jsonp(responses('error', 'You must enter the data'));
     }
 
     if (!albumsData.find((album: TAlbum) => album.id === album_id)) {
-      return res.jsonp(responses('error', 'The album does not exist'));
+      // return res.jsonp(responses('error', 'The album does not exist'));
     }
 
     let lastID = songsData[songsData.length - 1].id,
@@ -88,7 +87,7 @@ export default (routes: Router) => {
     const name = req.body.name;
 
     if (!name) {
-      return res.jsonp(responses('error', 'You must enter the data'));
+      // return res.jsonp(responses('error', 'You must enter the data'));
     }
 
     if (
@@ -96,7 +95,7 @@ export default (routes: Router) => {
         (artist: TArtist) => artist.name.toLowerCase() === name.toLowerCase()
       )
     ) {
-      return res.jsonp(responses('error', 'The artist exists'));
+      // return res.jsonp(responses('error', 'The artist exists'));
     }
 
     let lastID = artistsData[artistsData.length - 1].id,
@@ -113,11 +112,11 @@ export default (routes: Router) => {
       user_id = req.body.user_id;
 
     if (!name || !user_id) {
-      return res.jsonp(responses('error', 'You must enter the data'));
+      // return res.jsonp(responses('error', 'You must enter the data'));
     }
 
     if (!usersData.find((user: TUser) => user.id === user_id)) {
-      return res.jsonp(responses('error', 'The user does not exist'));
+      // return res.jsonp(responses('error', 'The user does not exist'));
     }
 
     let lastID = listsData[listsData.length - 1].id,

@@ -5,6 +5,7 @@ function configLoad(): void {
 
   try {
     const config: TConfig = {
+      // TODO: agregar var "modeDev" para depuracion en modo development
       database: {
         host: ENV.PG_HOST || '',
         user: ENV.PG_USER || '',

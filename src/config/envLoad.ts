@@ -2,7 +2,7 @@ import { config } from 'dotenv';
 import { resolve } from 'path';
 
 function envLoad(): NodeJS.ProcessEnv {
-  if (process.env.NODE_ENV === undefined) {
+  if (process.env.NODE_ENV !== 'production') {
     const path = resolve('.env');
     const result = config({ path });
 
