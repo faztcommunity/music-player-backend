@@ -42,7 +42,7 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "http-status-codes": "^1.4.0",
-    "next-database": "^1.0.4"
+    "next-database": "^1.0.5"
   },
   "devDependencies": {
     "@types/chai": "^4.2.11",

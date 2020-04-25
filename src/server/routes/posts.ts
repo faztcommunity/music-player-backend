@@ -1,4 +1,6 @@
 import { Router, Request, Response } from 'express';
+import JsonResponse from '../responses/JsonResponse';
+import controllers from '../../controllers';
 
 /* MOCK */
 const usersData: Array<TUser> = require('../../../mock/usersData');
@@ -9,36 +11,22 @@ const listsData: Array<TList> = require('../../../mock/listsData');
 
 export default (routes: Router) => {
   /**
-   * Add a new user to fake data.
+   * Add a new user to the database.
    */
-  routes.post('/users', (req: Request, res: Response) => {
-    const username = req.body.username,
-      password = req.body.password,
-      email = req.body.email;
+  routes.post('/users', async (req: Request, res: Response) => {
+    try {
+      const user: TUser = await controllers.users.create(
+        req.body.name,
+        req.body.email,
+        req.body.password
+      )
 
-    if (!username || !password || !email) {
-      // return res.jsonp(responses('error', 'You must enter the data'));
+      new JsonResponse(res).ok('user created', user)
+    } catch (error) {
+      if (error instanceof Error)
+        res.status(406).jsonp({ message: error.message })
+      // TODO:
     }
-
-    const user = usersData.find(
-      (user: TUser) =>
-        user.username.toLowerCase() === username.toLowerCase() ||
-        user.email.toLowerCase() === email.toLowerCase()
-    );
-
-    if (user) {
-      // return res.jsonp(responses('error', 'The user exists'));
-    }
-
-    let lastID = usersData[usersData.length - 1].id,
-      index = usersData.push({
-        id: ++lastID,
-        username,
-        password,
-        email
-      });
-
-    return res.jsonp(usersData[--index]);
   });
 
   /**
