@@ -14,11 +14,16 @@ type TConfig = {
 };
 
 type TUser = {
-  id: number;
-  username: string;
-  password: string;
+  id: string;
+  name: string;
   email: string;
 };
+
+type TUpdateUser = {
+  name?: string;
+  email?: string;
+  password?: string;
+}
 
 type TArtist = {
   id: number;
