@@ -15,16 +15,15 @@ export default (routes: Router) => {
    */
   routes.post('/users', async (req: Request, res: Response) => {
     try {
-      const user: TUser = await controllers.users.create(
+      const user = await controllers.users.create(
         req.body.name,
         req.body.email,
         req.body.password
-      )
+      );
 
-      new JsonResponse(res).ok('user created', user)
+      new JsonResponse(res).ok('user created', user.toArray());
     } catch (error) {
-      if (error instanceof Error)
-        res.status(406).jsonp({ message: error.message })
+      if (error instanceof Error) res.status(406).jsonp({ message: error.message });
       // TODO:
     }
   });
