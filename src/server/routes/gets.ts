@@ -26,7 +26,7 @@ export default (routes: Router) => {
    */
   routes.get('/users', async (req: Request, res: Response) => {
     try {
-      const users: TUser[] = await Controllers.users.getAll();
+      const users = await Controllers.users.getAll();
       new JsonResponse(res).ok('user list', users);
     } catch (error) {
       // TODO: usar NextFunction para activar un middleware
@@ -38,7 +38,7 @@ export default (routes: Router) => {
    * GET user by id
    */
   routes.get('/users/:id', (req: Request, res: Response) => {
-    const response = usersData.find((el: TUser) => el.id === parseInt(req.params.id));
+    const response = usersData.find((el: TUser) => el.id === req.params.id);
     if (!response) {
       res.json({
         code: 400,
