@@ -23,7 +23,7 @@ type TUpdateUser = {
   name?: string;
   email?: string;
   password?: string;
-}
+};
 
 type TArtist = {
   id: number;
