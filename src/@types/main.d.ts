@@ -14,39 +14,41 @@ type TConfig = {
 };
 
 type TUser = {
-  id: number;
-  username: string;
-  password: string;
+  id: string;
+  name: string;
   email: string;
+  password?: string;
 };
 
 type TArtist = {
-  id: number;
+  id: string;
   name: string;
 };
 
 type TList = {
-  id: number;
+  id: string;
   name: string;
-  user_id: number;
+  user_id: string;
 };
 
 type TAlbum = {
-  id: number;
+  id: string;
   name: string;
 };
 
 type TSong = {
-  id: number;
+  id: string;
   name: string;
   duration: number;
   album_id: string;
   song_bytes: number;
 };
 
-type TEngine = import('next-database').DatabaseSettings['type'];
+type TEngine = import('next-database').Connections;
 
-type TDatabase = import('next-database').DatabaseConnection;
+type TDatabase = import('next-database');
+
+type TDatabaseResult = import('next-database').Result;
 
 /************************************ DECLARATIONS **************************************/
 
