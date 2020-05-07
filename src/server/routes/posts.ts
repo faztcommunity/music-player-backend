@@ -1,127 +1,91 @@
 import { Router, Request, Response } from 'express';
-
-/* MOCK */
-const usersData: Array<TUser> = require('../../../mock/usersData');
-const albumsData: Array<TAlbum> = require('../../../mock/albumsData');
-const songsData: Array<TSong> = require('../../../mock/songsData');
-const artistsData: Array<TArtist> = require('../../../mock/artistsData');
-const listsData: Array<TList> = require('../../../mock/listsData');
+import JsonResponse from '../responses/JsonResponse';
+import Controllers from '../../controllers';
 
 export default (routes: Router) => {
   /**
-   * Add a new user to fake data.
+   * Add a new user to the database.
    */
-  routes.post('/users', (req: Request, res: Response) => {
-    const username = req.body.username,
-      password = req.body.password,
-      email = req.body.email;
-
-    if (!username || !password || !email) {
-      // return res.jsonp(responses('error', 'You must enter the data'));
-    }
-
-    const user = usersData.find(
-      (user: TUser) =>
-        user.username.toLowerCase() === username.toLowerCase() ||
-        user.email.toLowerCase() === email.toLowerCase()
-    );
-
-    if (user) {
-      // return res.jsonp(responses('error', 'The user exists'));
-    }
-
-    let lastID = usersData[usersData.length - 1].id,
-      index = usersData.push({
-        id: ++lastID,
-        username,
-        password,
-        email
+  routes.post('/user', async (req: Request, res: Response) => {
+    try {
+      const user = await Controllers.users.create({
+        id: '',
+        name: req.body.name || '',
+        email: req.body.email || '',
+        password: req.body.password || ''
       });
 
-    return res.jsonp(usersData[--index]);
+      new JsonResponse(res).ok('user created', user.toArray());
+    } catch (error) {
+      // TODO:
+    }
   });
 
   /**
-   * Add a new album to fake data.
+   * Add a new album to the database.
    */
-  routes.post('/albums', (req: Request, res: Response) => {
-    const name = req.body.name;
+  routes.post('/album', async (req: Request, res: Response) => {
+    try {
+      const album = await Controllers.albums.create({
+        id: '',
+        name: req.body.name || ''
+      });
 
-    if (!name) {
-      // return res.jsonp(responses('error', 'You must enter the data'));
+      new JsonResponse(res).ok('album created', album.toArray());
+    } catch (error) {
+      // TODO:
     }
-
-    let lastID = albumsData[albumsData.length - 1].id,
-      index = albumsData.push({ id: ++lastID, name });
-
-    return res.jsonp(albumsData[--index]);
   });
 
   /**
-   * Add a new song to fake data.
+   * Add a new song to the database.
    */
-  routes.post('/songs', (req: Request, res: Response) => {
-    const name = req.body.name,
-      duration = req.body.duration,
-      album_id = req.body.album_id,
-      song_bytes = req.body.song_bytes;
+  routes.post('/song', async (req: Request, res: Response) => {
+    try {
+      const song = await Controllers.songs.create({
+        id: '',
+        name: req.body.name || '',
+        duration: parseInt(req.body.duration) || 0,
+        album_id: req.body.album_id || '',
+        song_bytes: parseInt(req.body.song_bytes) || 0
+      });
 
-    if (!name || !duration || !album_id || !song_bytes) {
-      // return res.jsonp(responses('error', 'You must enter the data'));
+      new JsonResponse(res).ok('song created', song.toArray());
+    } catch (error) {
+      // TODO:
     }
-
-    if (!albumsData.find((album: TAlbum) => album.id === album_id)) {
-      // return res.jsonp(responses('error', 'The album does not exist'));
-    }
-
-    let lastID = songsData[songsData.length - 1].id,
-      index = songsData.push({ id: ++lastID, name, duration, album_id, song_bytes });
-
-    return res.jsonp(songsData[--index]);
   });
 
   /**
-   * Add a new artist to fake data.
+   * Add a new artist to the database.
    */
-  routes.post('/artists', (req: Request, res: Response) => {
-    const name = req.body.name;
+  routes.post('/artist', async (req: Request, res: Response) => {
+    try {
+      const artist = await Controllers.artists.create({
+        id: '',
+        name: req.body.name || ''
+      });
 
-    if (!name) {
-      // return res.jsonp(responses('error', 'You must enter the data'));
+      new JsonResponse(res).ok('artist created', artist.toArray());
+    } catch (error) {
+      // TODO:
     }
-
-    if (
-      artistsData.find(
-        (artist: TArtist) => artist.name.toLowerCase() === name.toLowerCase()
-      )
-    ) {
-      // return res.jsonp(responses('error', 'The artist exists'));
-    }
-
-    let lastID = artistsData[artistsData.length - 1].id,
-      index = artistsData.push({ id: ++lastID, name });
-
-    return res.jsonp(artistsData[--index]);
   });
 
   /**
-   * Add a new list to fake data.
+   * Add a new list to the database.
    */
-  routes.post('/lists', (req: Request, res: Response) => {
-    const name = req.body.name,
-      user_id = req.body.user_id;
+  routes.post('/list', async (req: Request, res: Response) => {
+    try {
+      const list = await Controllers.lists.create({
+        id: '',
+        name: req.body.name || '',
+        user_id: req.body.user_id || ''
+      });
 
-    if (!name || !user_id) {
-      // return res.jsonp(responses('error', 'You must enter the data'));
+      new JsonResponse(res).ok('list created', list.toArray());
+    } catch (error) {
+      // TODO:
     }
-
-    if (!usersData.find((user: TUser) => user.id === user_id)) {
-      // return res.jsonp(responses('error', 'The user does not exist'));
-    }
-
-    let lastID = listsData[listsData.length - 1].id,
-      index = listsData.push({ id: ++lastID, name, user_id });
-
-    return res.jsonp(listsData[--index]);
   });
 };
