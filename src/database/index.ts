@@ -10,8 +10,7 @@ class Database {
       host: DB.host,
       database: DB.dbName,
       password: DB.pass,
-      port: DB.port,
-      ssl: process.env.NODE_MODULE !== undefined
+      port: DB.port
     });
 
     try {

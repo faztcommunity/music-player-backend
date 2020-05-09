@@ -10,6 +10,7 @@ build/
 
 # Files
 output.sql
+insert.sql
 yarn.lock
 
 # Logs
