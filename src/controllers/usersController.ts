@@ -1,138 +1,88 @@
-import User from '../classes/User';
-import { generateId } from '../utils';
+import { Op } from 'sequelize';
+import { User, userModel } from '../database/models/User';
 
-const columnsToGet = ['id', 'name', 'email'];
-
+// TODO: refactorizar este codigo para separar las respuestas 404 de las 500
 const returnError = async (error: string | Error) => {
-  console.error('** Users Controller ->', error instanceof Error ? error.message : error);
+  console.error('** USERS-ERROR ->', error instanceof Error ? error.message : error);
   return await Promise.reject(error instanceof Error ? error : new Error(error));
 };
 
-export const getAll = async (): Promise<TUser[]> => {
+export const getAll = async (): Promise<TUser[] | undefined> => {
   try {
-    const result = await global.database.select('users').columns(columnsToGet).execute();
+    const result: User[] = await userModel().scope('protected').findAll();
 
-    return result.rows as TUser[];
-  } catch (error) {
-    return await returnError(error);
-  }
-};
-
-export const getById = async (id: string): Promise<User | null> => {
-  try {
-    const result = await global.database
-      .select('users')
-      .columns(columnsToGet)
-      .where()
-      .whenEquals('id', id)
-      .execute();
-
-    if (result.rows[0]) return new User(result.rows[0] as TUser);
-
-    return null;
-  } catch (error) {
-    return await returnError(error);
-  }
-};
-
-export const getByName = async (name: string): Promise<User | null> => {
-  try {
-    const result = await global.database
-      .select('users')
-      .columns(columnsToGet)
-      .where()
-      .whenEquals('name', name)
-      .execute();
-
-    if (result.rows[0]) return new User(result.rows[0] as TUser);
-
-    return null;
-  } catch (error) {
-    return await returnError(error);
-  }
-};
-
-export const getByEmail = async (email: string): Promise<User | null> => {
-  try {
-    const result = await global.database
-      .select('users')
-      .columns(columnsToGet)
-      .where()
-      .whenEquals('email', email)
-      .execute();
-
-    if (result.rows[0]) return new User(result.rows[0] as TUser);
-
-    return null;
-  } catch (error) {
-    return await returnError(error);
-  }
-};
-
-export const create = async (userData: TUser): Promise<User> => {
-  try {
-    if (!userData.id.length) userData.id = await generateId('USER');
-
-    let user = await getById(userData.id);
-    if (user) throw 'The user id already exists';
-
-    if (
-      !userData.name.length ||
-      !userData.email.length ||
-      !userData.password ||
-      !userData.password.length
-    )
-      throw 'The user data is required';
-
-    user = await getByName(userData.name);
-    if (user) throw 'The user name already exists';
-
-    user = await getByEmail(userData.email);
-    if (user) throw 'The user email already exists';
-
-    await global.database
-      .insert('users')
-      .fields(userData as any)
-      .execute();
-
-    return new User(userData);
-  } catch (error) {
-    return await returnError(error);
-  }
-};
-
-export const update = async (userData: TUser): Promise<User> => {
-  try {
-    if (!userData.id.length) throw 'The user id is required';
-
-    if (
-      !userData.email.length &&
-      !userData.name.length &&
-      (!userData.password || !userData.password.length)
-    )
-      throw 'The new user data is required';
-
-    const user = await getById(userData.id);
-    if (!user) throw 'The user does not exist';
-
-    if (userData.name.length) {
-      const user2 = await getByName(userData.name);
-      if (user2) throw 'The user name already exists';
-
-      user.setName(userData.name);
+    if (result.length) {
+      const users: TUser[] = result.map((user: User) => user.toJSON() as TUser);
+      return users;
     }
+  } catch (error) {
+    return await returnError(error);
+  }
+};
 
-    if (userData.email.length) {
-      const user2 = await getByEmail(userData.email);
-      if (user2) throw 'The user email already exists';
+export const getById = async (id: string): Promise<TUser | undefined> => {
+  try {
+    const result: User | null = await userModel().scope('protected').findOne({
+      where: { id }
+    });
 
-      user.setEmail(userData.email);
+    if (result) {
+      const user = result.toJSON() as TUser;
+      return user;
     }
+  } catch (error) {
+    return await returnError(error);
+  }
+};
 
-    if (userData.password && userData.password.length)
-      await user.changePassword(userData.password);
+export const getByName = async (name: string): Promise<TUser | undefined> => {
+  try {
+    const result: User | null = await userModel().scope('protected').findOne({
+      where: { name }
+    });
 
-    if (userData.name.length || userData.email.length) await user.update();
+    if (result) {
+      const user = result?.toJSON() as TUser;
+      return user;
+    }
+  } catch (error) {
+    return await returnError(error);
+  }
+};
+
+// NOTA: Es necesario ?
+// export const getByEmail = async (email: string): Promise<User | null> => {
+//   try {
+//     const result = await global.database
+//       .select('users')
+//       .columns(columnsToGet)
+//       .where()
+//       .whenEquals('email', email)
+//       .execute();
+
+//     if (result.rows[0]) return new User(result.rows[0] as TUser);
+
+//     return null;
+//   } catch (error) {
+//     return await returnError(error);
+//   }
+// };
+
+export const create = async (userData: TUser): Promise<TUser> => {
+  if (!userData.name || !userData.email || !userData.password)
+    throw 'The user data is required';
+
+  try {
+    const userExists: User | null = await userModel().findOne({
+      where: {
+        [Op.or]: [{ name: userData.name }, { email: userData.email }]
+      }
+    });
+
+    if (userExists) throw 'The user already exists';
+
+    const result: User = await userModel().create(userData);
+    const user = result.toJSON() as TUser;
 
     return user;
   } catch (error) {
@@ -140,20 +90,54 @@ export const update = async (userData: TUser): Promise<User> => {
   }
 };
 
-export const destroy = async (id: string): Promise<TUser> => {
+export const update = async (userData: TUser): Promise<TUser | undefined> => {
+  if (!userData.email.length && !userData.name.length && !userData.password.length)
+    throw 'The new user data is required';
+
   try {
-    if (!id.length) throw 'The user id is required';
+    const userExists: User | null = await userModel().findOne({
+      where: {
+        [Op.or]: [{ name: userData.name }, { email: userData.email }]
+      }
+    });
 
-    const user = await getById(id);
-    if (!user) throw 'The user does not exist';
+    if (userExists) throw 'The user already exists';
 
-    await global.database
-      .delete('users')
-      .where()
-      .whenEquals('id', user.getId())
-      .execute();
+    const resultOfUpdated = await userModel().update(userData, {
+      fields: [
+        userData.email ? 'email' : '',
+        userData.name ? 'name' : '',
+        userData.password ? 'password' : ''
+      ],
+      where: {
+        id: userData.id
+      }
+    });
 
-    return user.toArray();
+    const fieldsUpdated: number = resultOfUpdated[0];
+
+    if (fieldsUpdated > 0) {
+      const result = await userModel()
+        .scope('protected')
+        .findOne({
+          where: { id: userData.id }
+        });
+
+      const userUpdated = result?.toJSON() as TUser;
+      return userUpdated;
+    }
+  } catch (error) {
+    return await returnError(error);
+  }
+};
+
+export const destroy = async (id: string): Promise<boolean> => {
+  try {
+    const fieldsDeleted = await userModel().destroy({
+      where: { id }
+    });
+
+    return fieldsDeleted > 0;
   } catch (error) {
     return await returnError(error);
   }
