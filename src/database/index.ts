@@ -1,24 +1,23 @@
-import nextDatabase from 'next-database';
+import { Sequelize, ConnectionError, Dialect } from 'sequelize';
 
 class Database {
-  public static async start(dbEngine: TEngine): Promise<void> {
-    const DB: TConfig['database'] = global.config.database;
+  public static async start(dbEngine: Dialect): Promise<void> {
+    const DB = global.config.database;
 
-    const db = new nextDatabase({
-      type: dbEngine,
-      user: DB.user,
+    const sequelize = new Sequelize(DB.dbName, DB.user, DB.pass, {
       host: DB.host,
-      database: DB.dbName,
-      password: DB.pass,
+      dialect: dbEngine,
       port: DB.port
     });
 
     try {
-      await db.connect();
-      global.database = db;
+      await sequelize.authenticate();
       console.log(`>> DATABASE -> Initialized "${DB.dbName}"`);
+
+      global.database = sequelize;
     } catch (error) {
-      console.error('** DATABASE ->', error.message);
+      const err = error as ConnectionError;
+      console.error('!! DATABASE-ERROR ->', err.message);
     }
   }
 }

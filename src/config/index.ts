@@ -1,4 +1,5 @@
 import envLoad from './envLoad';
+import { Dialect } from 'sequelize/types';
 
 function configLoad(): void {
   const ENV: NodeJS.ProcessEnv = envLoad();
@@ -7,11 +8,11 @@ function configLoad(): void {
     const config: TConfig = {
       // TODO: agregar var "modeDev" para depuracion en modo development
       database: {
-        host: ENV.PG_HOST || '',
-        user: ENV.PG_USER || '',
-        dbName: ENV.PG_DBNAME || '',
-        pass: ENV.PG_PASSWORD || '',
-        port: Number(ENV.PG_PORT)
+        host: ENV.DB_HOST || '',
+        user: ENV.DB_USER || '',
+        dbName: ENV.DB_DBNAME || '',
+        pass: ENV.DB_PASSWORD || '',
+        port: Number(ENV.DB_PORT)
       },
       whitelist: ['http://localhost:2000/'],
       access_token: ENV.ACCESS_TOKEN || '',

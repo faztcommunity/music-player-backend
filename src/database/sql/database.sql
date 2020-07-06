@@ -34,6 +34,8 @@ CREATE TABLE IF NOT EXISTS public.users (
   "name" VARCHAR(45) NOT NULL,
   "email" VARCHAR(45) NOT NULL,
   "password" VARCHAR(255) NOT NULL,
+  "created_at" TIMESTAMP NOT NULL,
+  "updated_at" TIMESTAMP NOT NULL,
   CONSTRAINT "pk_users_id" PRIMARY KEY ("id")
 );
 -- -----------------------------------------------------

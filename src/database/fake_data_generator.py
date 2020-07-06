@@ -8,7 +8,7 @@ import uuid
 import random
 import requests
 import binascii
-
+from datetime import datetime
 
 def get_uuid():
     return str(uuid.uuid4())
@@ -38,12 +38,21 @@ def generate_users(amount):
     res = requests.get("https://randomuser.me/api/", params={"results": amount})
     data = res.json()
     for user in data["results"]:
-        email = user["email"]
-        username = user["login"]["username"]
-        password = user["login"]["password"]
         user_id = get_uuid()
+        username = user["login"]["username"]
+        email = user["email"]
+        password = user["login"]["password"]
+        createdAt = datetime.now()
+        updatedAt = datetime.now()
 
-        user_sql = sql_insert('users', id=user_id, name=username, email=email, password=password)
+        user_sql = sql_insert('users',
+            id=user_id,
+            name=username,
+            email=email,
+            password=password,
+            created_at=createdAt,
+            updated_at=updatedAt
+        )
         users[user_id] = user_sql
 
     return users
