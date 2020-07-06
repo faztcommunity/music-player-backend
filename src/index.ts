@@ -14,6 +14,8 @@ async function main() {
     const server = new Server();
     server.initialize();
   } catch (error) {
+    console.error(error);
+
     // TODO: terminar ejecucion del script
   }
 }

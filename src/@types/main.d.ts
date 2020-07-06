@@ -14,10 +14,10 @@ type TConfig = {
 };
 
 type TUser = {
-  id: string;
+  id?: string;
   name: string;
   email: string;
-  password?: string;
+  password: string;
 };
 
 type TArtist = {
@@ -44,11 +44,9 @@ type TSong = {
   song_bytes: number;
 };
 
-type TEngine = import('next-database').Connections;
+type TEngine = import('sequelize').Options['dialect'];
 
-type TDatabase = import('next-database');
-
-type TDatabaseResult = import('next-database').Result;
+type TDatabase = import('sequelize').Sequelize;
 
 /************************************ DECLARATIONS **************************************/
 
